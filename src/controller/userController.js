@@ -24,7 +24,7 @@ exports.addUser = (req, res) => {
     });
 };
 
-exports.signin = (req, res) => {
+exports.signinUser = (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password)
@@ -38,8 +38,20 @@ exports.signin = (req, res) => {
                 const token = jwt.sign({ id: u._id }, process.env.JWT_SECRET);
                 return res
                     .status(200)
-                    .json({ token, message: "Login sucsses" });
+                    .json({ token, id: u._id, message: "Login sucsses" });
             } else return res.status(400).json({ error: "Invalid Inputs" });
         });
     });
+};
+
+exports.deleteUser = (req, res) => {
+    const { _id } = req.user;
+
+    User.findByIdAndRemove(_id)
+        .then(() => {
+            return res.status(200).json({ message: "User Removed" });
+        })
+        .catch((error) => {
+            return res.status(400).json({ error: error.message });
+        });
 };
