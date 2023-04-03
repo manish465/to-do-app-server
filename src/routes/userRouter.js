@@ -6,10 +6,12 @@ const {
     addUser,
     signinUser,
     deleteUser,
+    getUserById,
 } = require("../controller/userController");
 
 router.post("/add-user", addUser);
 router.post("/sign-in", signinUser);
+router.get("/:id", checkAuth, getUserById);
 router.delete("/", checkAuth, deleteUser);
 
 module.exports = router;

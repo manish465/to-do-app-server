@@ -55,3 +55,18 @@ exports.deleteUser = (req, res) => {
             return res.status(400).json({ error: error.message });
         });
 };
+
+exports.getUserById = (req, res) => {
+    const { id } = req.params;
+
+    User.findById(id)
+        .then((u) => {
+            u.password = undefined;
+            const user = u;
+
+            return res.status(200).json({ user });
+        })
+        .catch((error) => {
+            return res.status(400).json({ error: error.message });
+        });
+};
