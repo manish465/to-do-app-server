@@ -45,9 +45,9 @@ exports.signinUser = (req, res) => {
 };
 
 exports.deleteUser = (req, res) => {
-    const { _id } = req.user;
+    const { id } = req.params;
 
-    User.findByIdAndRemove(_id)
+    User.findByIdAndRemove(id)
         .then(() => {
             return res.status(200).json({ message: "User Removed" });
         })
@@ -65,6 +65,18 @@ exports.getUserById = (req, res) => {
             const user = u;
 
             return res.status(200).json({ user });
+        })
+        .catch((error) => {
+            return res.status(400).json({ error: error.message });
+        });
+};
+
+exports.changeUserById = (req, res) => {
+    const { id } = req.params;
+
+    User.findByIdAndUpdate(id)
+        .then(() => {
+            return res.status(200).json({ message: "User updated" });
         })
         .catch((error) => {
             return res.status(400).json({ error: error.message });
