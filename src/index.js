@@ -2,8 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
-const userRouter = require("./routes/userRouter");
-
 dotenv.config();
 
 const app = express();
@@ -16,7 +14,8 @@ app.get("/", (_req, res) => {
     res.send("TO DO APP");
 });
 
-app.use("/api/v1/user", userRouter);
+app.use("/api/v1/user", require("./routes/userRouter"));
+app.use("/api/v1/task", require("./routes/taskRouter"));
 
 app.listen(port, () =>
     mongoose
