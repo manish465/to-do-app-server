@@ -6,10 +6,10 @@ exports.addUser = (req, res) => {
     const { firstName, lastName, email, password } = req.body;
 
     if (!firstName || !lastName || !email || !password)
-        return res.status(400).json({ error: "Enter all required field" });
+        return res.status(400).json({ message: "Enter all required field" });
 
     User.findOne({ email }).then((u) => {
-        if (u) return res.status(400).json({ error: "User already exist" });
+        if (u) return res.status(400).json({ message: "User already exist" });
 
         const hashPassword = bcrypt.hashSync(password, 3);
         const user = new User({
@@ -20,7 +20,7 @@ exports.addUser = (req, res) => {
         });
         user.save()
             .then(() => res.status(200).json({ message: "User added" }))
-            .catch((error) => res.status(400).json({ error: error.message }));
+            .catch((error) => res.status(400).json({ message: error.message }));
     });
 };
 
@@ -28,10 +28,10 @@ exports.signinUser = (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password)
-        return res.status(400).json({ error: "Enter all required field" });
+        return res.status(400).json({ message: "Enter all required field" });
 
     User.findOne({ email }).then((u) => {
-        if (!u) return res.status(400).json({ error: "User dose not exist" });
+        if (!u) return res.status(400).json({ message: "User dose not exist" });
 
         bcrypt.compare(password, u.password).then((result) => {
             if (result) {
@@ -39,7 +39,7 @@ exports.signinUser = (req, res) => {
                 return res
                     .status(200)
                     .json({ token, id: u._id, message: "Login sucsses" });
-            } else return res.status(400).json({ error: "Invalid Inputs" });
+            } else return res.status(400).json({ message: "Invalid Inputs" });
         });
     });
 };
@@ -52,7 +52,7 @@ exports.deleteUser = (req, res) => {
             return res.status(200).json({ message: "User Removed" });
         })
         .catch((error) => {
-            return res.status(400).json({ error: error.message });
+            return res.status(400).json({ message: error.message });
         });
 };
 
@@ -67,7 +67,7 @@ exports.getUserById = (req, res) => {
             return res.status(200).json({ user });
         })
         .catch((error) => {
-            return res.status(400).json({ error: error.message });
+            return res.status(400).json({ message: error.message });
         });
 };
 
@@ -76,13 +76,13 @@ exports.changeUserById = (req, res) => {
     const { firstName, lastName, email } = req.body;
 
     if (!firstName || !lastName || !email)
-        return res.status(400).json({ error: "Enter all required field" });
+        return res.status(400).json({ message: "Enter all required field" });
 
     User.findByIdAndUpdate(id, { firstName, lastName, email })
         .then(() => {
             return res.status(200).json({ message: "User updated" });
         })
         .catch((error) => {
-            return res.status(400).json({ error: error.message });
+            return res.status(400).json({ message: error.message });
         });
 };
