@@ -5,14 +5,14 @@ exports.getAllTasksByUserId = (req, res) => {
         .then((result) => {
             return res.status(200).json({ tasks: result });
         })
-        .catch((error) => res.status(400).json({ message: error.message }));
+        .catch((error) => res.status(400).json({ error: error.message }));
 };
 
 exports.addATask = (req, res) => {
     const { taskName, tags } = req.body;
 
     if (!taskName || !tags)
-        return res.status(400).json({ message: "Invelid Input" });
+        return res.status(400).json({ error: "Invelid Input" });
 
     const task = new Task({
         taskName,
@@ -23,7 +23,7 @@ exports.addATask = (req, res) => {
 
     task.save()
         .then(() => res.status(200).json({ message: "Task added" }))
-        .catch((error) => res.status(400).json({ message: error.message }));
+        .catch((error) => res.status(400).json({ error: error.message }));
 };
 
 exports.changeTaskById = (req, res) => {
@@ -31,13 +31,13 @@ exports.changeTaskById = (req, res) => {
     const { taskName, tags, taskStatus } = req.body;
 
     if (!taskName || !tags || !taskStatus)
-        return res.status(400).json({ message: "Invelid Input" });
+        return res.status(400).json({ error: "Invelid Input" });
 
     Task.findByIdAndUpdate(id, { taskName, tags, taskStatus })
         .then(() => {
             return res.status(200).json({ message: "Task updated" });
         })
-        .catch((error) => res.status(400).json({ message: error.message }));
+        .catch((error) => res.status(400).json({ error: error.message }));
 };
 
 exports.deleteTaskById = (req, res) => {
@@ -47,5 +47,5 @@ exports.deleteTaskById = (req, res) => {
         .then(() => {
             return res.status(200).json({ message: "Task deleted" });
         })
-        .catch((error) => res.status(400).json({ message: error.message }));
+        .catch((error) => res.status(400).json({ error: error.message }));
 };
