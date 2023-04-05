@@ -1,11 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require("cors");
 
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 8000;
 app.use(express.json());
+app.use(cors());
 
 app.get("/", (_req, res) => {
     res.send("TO DO APP");
