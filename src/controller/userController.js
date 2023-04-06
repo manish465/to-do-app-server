@@ -78,9 +78,16 @@ exports.changeUserById = (req, res) => {
     if (!firstName || !lastName || !email)
         return res.status(400).json({ error: "Enter all required field" });
 
-    User.findByIdAndUpdate(id, { firstName, lastName, email })
-        .then(() => {
-            return res.status(200).json({ message: "User updated" });
+    User.findByIdAndUpdate(id, { firstName, lastName, email }, { new: true })
+        .then((u) => {
+            return res.status(200).json({
+                message: "User updated",
+                user: {
+                    firstName: u.firstName,
+                    lastName: u.lastName,
+                    email: u.email,
+                },
+            });
         })
         .catch((error) => {
             return res.status(400).json({ error: error.message });

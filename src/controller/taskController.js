@@ -33,9 +33,9 @@ exports.changeTaskById = (req, res) => {
     if (!taskName || !tags || !taskStatus)
         return res.status(400).json({ error: "Invelid Input" });
 
-    Task.findByIdAndUpdate(id, { taskName, tags, taskStatus })
-        .then(() => {
-            return res.status(200).json({ message: "Task updated" });
+    Task.findByIdAndUpdate(id, { taskName, tags, taskStatus }, { new: true })
+        .then((task) => {
+            return res.status(200).json({ message: "Task updated", task });
         })
         .catch((error) => res.status(400).json({ error: error.message }));
 };
