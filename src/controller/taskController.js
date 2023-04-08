@@ -17,7 +17,7 @@ exports.addATask = (req, res) => {
     const task = new Task({
         taskName,
         tags,
-        taskStatus: "not started",
+        taskStatus: "not working",
         user: req.user._id,
     });
 
