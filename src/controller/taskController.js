@@ -1,5 +1,13 @@
 const Task = require("../models/taskModel");
 
+exports.getTaskById = (req, res) => {
+    Task.findById(req.body.id)
+        .then((result) => {
+            return res.status(200).json({ task: result });
+        })
+        .catch((error) => res.status(400).json({ error: error.message }));
+};
+
 exports.getAllTasksByUserId = (req, res) => {
     Task.find({ user: req.user._id })
         .then((result) => {
