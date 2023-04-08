@@ -1,7 +1,9 @@
 const Task = require("../models/taskModel");
 
 exports.getTaskById = (req, res) => {
-    Task.findById(req.body.id)
+    const { id } = req.params;
+
+    Task.findById(id)
         .then((result) => {
             return res.status(200).json({ task: result });
         })
